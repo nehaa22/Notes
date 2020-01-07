@@ -18,4 +18,13 @@ class UserTest {
 		Assertions.assertTrue(expectedString.contains("\"userName\":\"Neha\""));
 	}
 
+	@Test
+	void expectedSamePasswordAfterSerialization() throws JsonProcessingException{
+		User userOne = new User("Neha","neha22");
+		ObjectMapper objectMapper = new ObjectMapper();
+		String expectedString = objectMapper.writeValueAsString(userOne);
+		Assertions.assertTrue(expectedString.contains("\"password\":\"neha22\""));
+
+	}
+
 }
