@@ -1,16 +1,14 @@
-package com.thoughtworks.practice.TaskManager;
+package com.thoughtworks.practice.TaskManager.User;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
 @Entity
-class User {
+public class User {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
+//    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
