@@ -31,8 +31,7 @@ public class UserService implements UserDetailsService {
         return userRepository.save(newUser);
     }
 
-
-    public User fetch(Long userId) throws Exception {
+    public User getUser(Long userId) throws Exception {
         return userRepository.findById(userId).orElseThrow(Exception::new);
     }
 }

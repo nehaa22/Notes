@@ -73,7 +73,7 @@ class UserServiceTest {
     void shouldGetUser() throws Exception {
         User userOne = new User("sam@gmail.com","sam","sam22");
         userService.register(userOne);
-        User savedUser = userService.fetch(userOne.getId());
+        User savedUser = userService.getUser(userOne.getId());
         Assertions.assertEquals("sam",savedUser.getUserName());
     }
 }
