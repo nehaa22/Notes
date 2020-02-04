@@ -76,4 +76,18 @@ class UserServiceTest {
         User savedUser = userService.getUser(userOne.getId());
         Assertions.assertEquals("sam",savedUser.getUserName());
     }
+
+    @Test
+    void shouldGetTwoUser() throws Exception {
+        User userOne = new User("sam@gmail.com","sam","sam22");
+        userService.register(userOne);
+        User userTwo = new User("dany@gmail.com","dany","dany22");
+        userService.register(userTwo);
+        User savedUserOne = userService.getUser(userOne.getId());
+        User savedUserTwo = userService.getUser(userTwo.getId());
+
+        Assertions.assertEquals("sam",savedUserOne.getUserName());
+        Assertions.assertEquals("dany@gmail.com",savedUserTwo.getEmail());
+
+    }
 }
