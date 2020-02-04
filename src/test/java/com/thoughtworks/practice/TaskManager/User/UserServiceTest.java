@@ -68,4 +68,12 @@ class UserServiceTest {
         Assertions.assertEquals("nancy@gmail.com",newUserTwo.getEmail());
         Assertions.assertNotNull(newUserTwo);
     }
+
+    @Test
+    void shouldGetUser() throws Exception {
+        User userOne = new User("sam@gmail.com","sam","sam22");
+        userService.register(userOne);
+        User savedUser = userService.fetch(userOne.getId());
+        Assertions.assertEquals("sam",savedUser.getUserName());
+    }
 }

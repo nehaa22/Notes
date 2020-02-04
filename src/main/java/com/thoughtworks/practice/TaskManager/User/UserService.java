@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-//@Component
 public class UserService implements UserDetailsService {
 
     @Autowired
@@ -29,5 +29,10 @@ public class UserService implements UserDetailsService {
 
     public User register(User newUser)  {
         return userRepository.save(newUser);
+    }
+
+
+    public User fetch(Long userId) throws Exception {
+        return userRepository.findById(userId).orElseThrow(Exception::new);
     }
 }

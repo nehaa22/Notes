@@ -24,8 +24,7 @@ public class User {
     @Column
     private String password;
 
-    @OneToMany(targetEntity = Note.class, cascade = CascadeType.ALL)
-    @JoinColumn
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Note> notes;
 
     public User(String email,String userName, String password) {
@@ -35,6 +34,8 @@ public class User {
     }
 
     public User(){}
+
+    public Long getId(){ return  id; }
 
     public String getEmail(){
         return email;
