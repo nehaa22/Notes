@@ -1,25 +1,33 @@
 package com.thoughtworks.practice.TaskManager.User;
 
-import com.thoughtworks.practice.TaskManager.Exception.UserAlreadyExistException;
+import com.thoughtworks.practice.TaskManager.Note.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
-public class UserService {
+//@Component
+public class UserService implements UserDetailsService {
 
     @Autowired
-    private
     UserRepository userRepository;
 
-    public User register(User user) throws UserAlreadyExistException {
+    @Autowired
+    NoteRepository noteRepository;
 
-        Optional <User> existingUser = userRepository.findByEmail(user.getEmail());
-
-        if(existingUser.isPresent()){
-            throw new UserAlreadyExistException();
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+         User user = userRepository.findByUserName(username);
+        if (user==null){
+            throw new UsernameNotFoundException("Not found");
         }
-        return userRepository.save(user);
+        return new UserPrinciple(user);
+    }
+
+    public User register(User newUser)  {
+        return userRepository.save(newUser);
     }
 }

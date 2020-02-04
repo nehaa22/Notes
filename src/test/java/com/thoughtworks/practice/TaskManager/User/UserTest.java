@@ -1,4 +1,4 @@
-package com.thoughtworks.practice.TaskManager;
+package com.thoughtworks.practice.TaskManager.User;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

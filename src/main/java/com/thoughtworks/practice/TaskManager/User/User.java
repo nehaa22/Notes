@@ -1,18 +1,17 @@
 package com.thoughtworks.practice.TaskManager.User;
 
+import com.thoughtworks.practice.TaskManager.Note.Note;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Entity
 public class User {
 
-//    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long id;
 
     @NotEmpty
     @Column(unique = true)
@@ -22,9 +21,12 @@ public class User {
     @Column
     private String userName;
 
-
     @Column
     private String password;
+
+    @OneToMany(targetEntity = Note.class, cascade = CascadeType.ALL)
+    @JoinColumn
+    private List<Note> notes;
 
     public User(String email,String userName, String password) {
         this.email = email;
@@ -46,13 +48,4 @@ public class User {
         return password;
     }
 
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "email='" + email + '\'' +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }

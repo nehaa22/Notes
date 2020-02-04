@@ -1,6 +1,7 @@
 
-package com.thoughtworks.practice.TaskManager;
+package com.thoughtworks.practice.TaskManager.User;
 
+import com.thoughtworks.practice.TaskManager.Note.NoteRepository;
 import com.thoughtworks.practice.TaskManager.User.User;
 import com.thoughtworks.practice.TaskManager.User.UserController;
 import com.thoughtworks.practice.TaskManager.User.UserRepository;
@@ -13,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
 
-    @MockBean
+    @Autowired
     private UserService userService;
 
     @MockBean
@@ -29,6 +29,9 @@ public class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private NoteRepository noteRepository;
 
     @Test
     public void givenUser_WhenRegister_ThenShouldGetRegister() throws Exception {

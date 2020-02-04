@@ -7,17 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-//@Configuration
-//public class DataSeeder {
-//
-//    @Bean
-//    CommandLineRunner initDb(UserRepository userRepository,UserService userService){
-//        return args -> {
-//            if(userRepository.findByEmail("stark@gmail.com").isEmpty()) {
-//                User savedUser = userRepository.save(new User("stark@gmail.com","Stark","stark22"));
-//               // userRepository.save(savedUser);
-//               userService.registerOnce(savedUser);
-//            }
-//        };
-//    }
-//}
+@Configuration
+public class DataSeeder {
+
+    @Bean
+    CommandLineRunner initDb(UserRepository userRepository,UserService userService){
+        return args -> {
+            if(userRepository.findByUserName("neha") == null) {
+                User savedUser = userRepository.save(new User("neha@gmail.com","neha","neha22"));
+               // userRepository.save(savedUser);
+               userService.register(savedUser);
+            }
+        };
+    }
+}
