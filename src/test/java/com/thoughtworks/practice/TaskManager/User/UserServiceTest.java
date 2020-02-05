@@ -107,4 +107,19 @@ class UserServiceTest {
         Assertions.assertEquals("samira",savedUser.getUserName());
     }
 
+    @Test
+    void userShouldAddTwoNote() throws Exception {
+        User userOne = new User("jain@gmail.com","jain","jain22");
+        User savedUser = userService.register(userOne);
+        Note noteOne = new Note("Food","Veg");
+        Note noteTwo = new Note("God","Mahaveer");
+        Note newNoteOne = userService.createNote(noteOne,savedUser.getId());
+        Note newNoteTwo = userService.createNote(noteTwo,savedUser.getId());
+
+        Assertions.assertEquals("Food",newNoteOne.getTitle());
+        Assertions.assertEquals("Mahaveer",newNoteTwo.getMatter());
+
+        Assertions.assertEquals("jain",savedUser.getUserName());
+    }
+
 }
