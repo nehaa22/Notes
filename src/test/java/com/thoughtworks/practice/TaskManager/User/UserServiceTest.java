@@ -122,4 +122,34 @@ class UserServiceTest {
         Assertions.assertEquals("jain",savedUser.getUserName());
     }
 
+    @Test
+    void multipleUserShouldAddMultipleNote() throws Exception {
+        User userOne = new User("jain@gmail.com","jain","jain22");
+        User savedUserOne = userService.register(userOne);
+        User userTwo = new User("saxena@gmail.com","saxena","saxena22");
+        User savedUserTwo = userService.register(userTwo);
+        User userThree = new User("palekar@gmail.com","palekar","palekar22");
+        User savedUserThree = userService.register(userThree);
+
+        Note noteOne = new Note("Location","Bnagalore");
+        Note noteTwo = new Note("Job","Deloitte");
+        Note noteThree = new Note("Home","Yavatmal");
+        Note noteFour = new Note("Interest","Australia");
+
+        Note newNoteOne = userService.createNote(noteOne,savedUserOne.getId());
+        Note newNoteTwo = userService.createNote(noteTwo,savedUserTwo.getId());
+        Note newNoteThree = userService.createNote(noteThree,savedUserThree.getId());
+        Note newNoteFour = userService.createNote(noteFour,savedUserThree.getId());
+
+        Assertions.assertEquals("Location",newNoteOne.getTitle());
+        Assertions.assertEquals("Deloitte",newNoteTwo.getMatter());
+        Assertions.assertEquals("Yavatmal",newNoteThree.getMatter());
+        Assertions.assertEquals("Australia",newNoteFour.getMatter());
+
+        Assertions.assertEquals("jain",savedUserOne.getUserName());
+        Assertions.assertEquals("saxena",savedUserTwo.getUserName());
+
+    }
+
+
 }
