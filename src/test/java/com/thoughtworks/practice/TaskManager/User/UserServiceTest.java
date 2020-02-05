@@ -7,6 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class UserServiceTest {
@@ -30,49 +34,49 @@ class UserServiceTest {
     void shouldAddFirstUserToDatabase() {
         User userOne = new User("neha@gmail.com","Neha","neha22");
         User newUser = userService.register(userOne);
-        Assertions.assertEquals("neha@gmail.com",newUser.getEmail());
-        Assertions.assertNotNull(newUser);
+        assertEquals("neha@gmail.com",newUser.getEmail());
+        assertNotNull(newUser);
     }
 
     @Test
     void shouldAddSecondUserToDatabase() {
         User userOne = new User("avani@gmail.com","Avani","avani22");
         User newUser = userService.register(userOne);
-        Assertions.assertEquals("avani@gmail.com",newUser.getEmail());
-        Assertions.assertNotNull(newUser);
+        assertEquals("avani@gmail.com",newUser.getEmail());
+        assertNotNull(newUser);
     }
 
     @Test
     void shouldAddManyUserToDatabase()  {
         User userOne = new User("tony@gmail.com","Tony","tony22");
         User newUserOne = userService.register(userOne);
-        Assertions.assertEquals("tony@gmail.com",newUserOne.getEmail());
-        Assertions.assertNotNull(newUserOne);
+        assertEquals("tony@gmail.com",newUserOne.getEmail());
+        assertNotNull(newUserOne);
 
         User userTwo = new User("stark@gmail.com","Stark","stark22");
         User newUserTwo = userService.register(userTwo);
-        Assertions.assertEquals("stark@gmail.com",newUserTwo.getEmail());
-        Assertions.assertNotNull(newUserTwo);
+        assertEquals("stark@gmail.com",newUserTwo.getEmail());
+        assertNotNull(newUserTwo);
     }
 
     @Test
     void shouldAddOneUserToDatabase() {
         User userOne = new User("tani@gmail.com","Tani","tani22");
         User newUserOne = userService.register(userOne);
-        Assertions.assertEquals("tani@gmail.com",newUserOne.getEmail());
-        Assertions.assertNotNull(newUserOne);
+        assertEquals("tani@gmail.com",newUserOne.getEmail());
+        assertNotNull(newUserOne);
     }
 
     @Test
     void shouldAddNewOneUserToDatabase() {
         User userOne = new User("sam@gmail.com","sam","sam22");
         User newUserOne = userService.register(userOne);
-        Assertions.assertEquals("sam@gmail.com",newUserOne.getEmail());
-        Assertions.assertNotNull(newUserOne);
+        assertEquals("sam@gmail.com",newUserOne.getEmail());
+        assertNotNull(newUserOne);
         User userTwo = new User("nancy@gmail.com","nancy","nancy22");
         User newUserTwo = userService.register(userTwo);
-        Assertions.assertEquals("nancy@gmail.com",newUserTwo.getEmail());
-        Assertions.assertNotNull(newUserTwo);
+        assertEquals("nancy@gmail.com",newUserTwo.getEmail());
+        assertNotNull(newUserTwo);
     }
 
     @Test
@@ -80,7 +84,7 @@ class UserServiceTest {
         User userOne = new User("same@gmail.com","same","same22");
         User existingUser = userService.register(userOne);
         User savedUser = userService.getUser(existingUser.getId());
-        Assertions.assertEquals("same",savedUser.getUserName());
+        assertEquals("same",savedUser.getUserName());
     }
 
     @Test
@@ -92,8 +96,8 @@ class UserServiceTest {
         User savedUserOne = userService.getUser(existingUserOne.getId());
         User savedUserTwo = userService.getUser(existingUserTwo.getId());
 
-        Assertions.assertEquals("sam",savedUserOne.getUserName());
-        Assertions.assertEquals("dany@gmail.com",savedUserTwo.getEmail());
+        assertEquals("sam",savedUserOne.getUserName());
+        assertEquals("dany@gmail.com",savedUserTwo.getEmail());
 
     }
 
@@ -103,8 +107,8 @@ class UserServiceTest {
         User savedUser = userService.register(userOne);
         Note note = new Note("Hobby","Yoga");
         Note newNote = userService.createNote(note,savedUser.getId());
-        Assertions.assertEquals("Hobby",newNote.getTitle());
-        Assertions.assertEquals("samira",savedUser.getUserName());
+        assertEquals("Hobby",newNote.getTitle());
+        assertEquals("samira",savedUser.getUserName());
     }
 
     @Test
@@ -116,10 +120,10 @@ class UserServiceTest {
         Note newNoteOne = userService.createNote(noteOne,savedUser.getId());
         Note newNoteTwo = userService.createNote(noteTwo,savedUser.getId());
 
-        Assertions.assertEquals("Food",newNoteOne.getTitle());
-        Assertions.assertEquals("Mahaveer",newNoteTwo.getMatter());
+        assertEquals("Food",newNoteOne.getTitle());
+        assertEquals("Mahaveer",newNoteTwo.getMatter());
 
-        Assertions.assertEquals("jain",savedUser.getUserName());
+        assertEquals("jain",savedUser.getUserName());
     }
 
     @Test
@@ -141,13 +145,23 @@ class UserServiceTest {
         Note newNoteThree = userService.createNote(noteThree,savedUserThree.getId());
         Note newNoteFour = userService.createNote(noteFour,savedUserThree.getId());
 
-        Assertions.assertEquals("Location",newNoteOne.getTitle());
-        Assertions.assertEquals("Deloitte",newNoteTwo.getMatter());
-        Assertions.assertEquals("Yavatmal",newNoteThree.getMatter());
-        Assertions.assertEquals("Australia",newNoteFour.getMatter());
+        assertEquals("Location",newNoteOne.getTitle());
+        assertEquals("Deloitte",newNoteTwo.getMatter());
+        assertEquals("Yavatmal",newNoteThree.getMatter());
+        assertEquals("Australia",newNoteFour.getMatter());
 
-        Assertions.assertEquals("jain",savedUserOne.getUserName());
-        Assertions.assertEquals("saxena",savedUserTwo.getUserName());
+        assertEquals("jain",savedUserOne.getUserName());
+        assertEquals("saxena",savedUserTwo.getUserName());
+
+    }
+
+    @Test
+    void shouldDeleteUser() {
+        User userOne = new User("arya@gmail.com","arya","arya22");
+        User savedUser = userService.register(userOne);
+        userService.deleteA(userOne);
+        assertThrows(UsernameNotFoundException.class,()->userService.loadUserByUsername(savedUser.getUserName()));
+
 
     }
 }

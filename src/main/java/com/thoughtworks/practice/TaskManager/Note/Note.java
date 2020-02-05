@@ -21,6 +21,12 @@ public class Note {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public Note(){}
+
+    public Note(String title,  String matter) {
+        this.title = title;
+        this.matter = matter;
+    }
     public String getTitle() {
         return title;
     }
@@ -31,14 +37,8 @@ public class Note {
         return matter;
     }
 
-    public Note(String title,  String matter) {
-        this.title = title;
-        this.matter = matter;
-    }
-
     public void linkUser(User user) {
         this.user = user;
     }
 
-    public Note(){}
 }

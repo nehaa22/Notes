@@ -21,7 +21,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-         User user = userRepository.findByUserName(username);
+        User user = userRepository.findByUserName(username);
         if (user==null){
             throw new UsernameNotFoundException("Not found");
         }
@@ -43,5 +43,9 @@ public class UserService implements UserDetailsService {
         List<Note> notes = existingUser.getNotes();
         return notes.get(notes.size()-1);
 
+    }
+
+    public void deleteA(User savedUserOne) {
+         userRepository.delete(savedUserOne);
     }
 }
