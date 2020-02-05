@@ -1,5 +1,7 @@
 package com.thoughtworks.practice.TaskManager.User;
 
+import com.thoughtworks.practice.TaskManager.Note.Note;
+import com.thoughtworks.practice.TaskManager.Note.NoteRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,11 +15,15 @@ class UserServiceTest {
     UserRepository userRepository;
 
     @Autowired
-    private UserService userService ;
+    private UserService userService;
+
+    @Autowired
+    private NoteRepository noteRepository;
 
     @BeforeEach
     public void tearDown(){
         userRepository.deleteAll();
+        noteRepository.deleteAll();
     }
 
     @Test
@@ -71,23 +77,34 @@ class UserServiceTest {
 
     @Test
     void shouldGetUser() throws Exception {
-        User userOne = new User("sam@gmail.com","sam","sam22");
-        userService.register(userOne);
-        User savedUser = userService.getUser(userOne.getId());
-        Assertions.assertEquals("sam",savedUser.getUserName());
+        User userOne = new User("same@gmail.com","same","same22");
+        User existingUser = userService.register(userOne);
+        User savedUser = userService.getUser(existingUser.getId());
+        Assertions.assertEquals("same",savedUser.getUserName());
     }
 
     @Test
     void shouldGetTwoUser() throws Exception {
         User userOne = new User("sam@gmail.com","sam","sam22");
-        userService.register(userOne);
+        User existingUserOne = userService.register(userOne);
         User userTwo = new User("dany@gmail.com","dany","dany22");
-        userService.register(userTwo);
-        User savedUserOne = userService.getUser(userOne.getId());
-        User savedUserTwo = userService.getUser(userTwo.getId());
+        User existingUserTwo = userService.register(userTwo);
+        User savedUserOne = userService.getUser(existingUserOne.getId());
+        User savedUserTwo = userService.getUser(existingUserTwo.getId());
 
         Assertions.assertEquals("sam",savedUserOne.getUserName());
         Assertions.assertEquals("dany@gmail.com",savedUserTwo.getEmail());
 
     }
+
+    @Test
+    void userShouldAddNote() throws Exception {
+        User userOne = new User("samira@gmail.com","samira","samira22");
+        User savedUser = userService.register(userOne);
+        Note note = new Note("Hobby","Yoga");
+        Note newNote = userService.createNote(note,savedUser.getId());
+        Assertions.assertEquals("Hobby",newNote.getTitle());
+        Assertions.assertEquals("samira",savedUser.getUserName());
+    }
+
 }

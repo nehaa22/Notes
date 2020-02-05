@@ -24,7 +24,7 @@ public class User {
     @Column
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Note> notes;
 
     public User(String email,String userName, String password) {
@@ -49,4 +49,12 @@ public class User {
         return password;
     }
 
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void addNote(Note note) {
+        this.notes.add(note);
+        note.linkUser(this);
+    }
 }

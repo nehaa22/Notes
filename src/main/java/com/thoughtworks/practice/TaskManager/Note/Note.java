@@ -36,6 +36,10 @@ public class Note {
         this.matter = matter;
     }
 
+    public void linkUser(User user) {
+        this.user = user;
+    }
+
     public Note(String title,  String matter, User user) {
         this.title = title;
         this.matter = matter;

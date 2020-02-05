@@ -1,5 +1,6 @@
 package com.thoughtworks.practice.TaskManager.User;
 
+import com.thoughtworks.practice.TaskManager.Note.Note;
 import com.thoughtworks.practice.TaskManager.Note.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -33,5 +34,14 @@ public class UserService implements UserDetailsService {
 
     public User getUser(Long userId) throws Exception {
         return userRepository.findById(userId).orElseThrow(Exception::new);
+    }
+
+    public Note createNote(Note note, Long userId) throws Exception {
+        User existingUser = getUser(userId);
+        existingUser.addNote(note);
+        noteRepository.save(note);
+        List<Note> notes = existingUser.getNotes();
+        return notes.get(notes.size()-1);
+
     }
 }
