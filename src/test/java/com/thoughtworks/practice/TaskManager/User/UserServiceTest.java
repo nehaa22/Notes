@@ -150,6 +150,4 @@ class UserServiceTest {
         Assertions.assertEquals("saxena",savedUserTwo.getUserName());
 
     }
-
-
 }

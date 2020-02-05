@@ -40,11 +40,5 @@ public class Note {
         this.user = user;
     }
 
-    public Note(String title,  String matter, User user) {
-        this.title = title;
-        this.matter = matter;
-        this.user = user;
-    }
-
     public Note(){}
 }
