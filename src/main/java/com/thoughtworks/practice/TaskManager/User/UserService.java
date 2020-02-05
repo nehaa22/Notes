@@ -45,7 +45,7 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public void deleteA(User savedUserOne) {
+    public void delete(User savedUserOne) {
          userRepository.delete(savedUserOne);
     }
 }
