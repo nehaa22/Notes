@@ -198,6 +198,26 @@ class UserServiceTest {
         Assertions.assertEquals(savedUser.getId(), updatedUser.getId());
     }
 
+    @Test
+    void shouldUpdatePasswordAndNameOfTwoUsers() throws Exception {
+        User userOne = new User("virus@gmail.com","virus","virus22");
+        User savedUserOne = userService.register(userOne);
+        User userTwo = new User("bacteria@gmail.com","bacteria","bacteria22");
+        User savedUserTwo = userService.register(userTwo);
+
+        User updateUserOne = new User("virus@gmail.com","virus","virus222");
+        User updateUserTwo = new User("bacteria@gmail.com","deadbacteria","bacteria22");
+
+        User updatedUserOne = userService.update(savedUserOne,updateUserOne);
+        User updatedUserTwo = userService.update(savedUserTwo,updateUserTwo);
+
+        Assertions.assertEquals("virus222",updatedUserOne.getPassword());
+        Assertions.assertEquals("deadbacteria",updatedUserTwo.getUserName());
+        Assertions.assertEquals(savedUserOne.getId(), updatedUserOne.getId());
+        Assertions.assertEquals(savedUserTwo.getId(), updatedUserTwo.getId());
+
+    }
+
 
 
 }
