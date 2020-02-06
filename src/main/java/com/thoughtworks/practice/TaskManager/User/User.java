@@ -11,7 +11,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
 
     @NotEmpty
     @Column(unique = true)
@@ -56,5 +56,17 @@ public class User {
     public void addNote(Note note) {
         this.notes.add(note);
         note.linkUser(this);
+    }
+
+    public void updateUsername(String updatedUsername) {
+        this.userName = updatedUsername;
+    }
+
+    public void updateEmail(String updatedEmail) {
+        this.email = updatedEmail;
+    }
+
+    public void updatePassword(String updatedPassword){
+        this.password = updatedPassword;
     }
 }

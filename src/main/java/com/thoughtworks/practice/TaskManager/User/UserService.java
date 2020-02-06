@@ -44,8 +44,21 @@ public class UserService implements UserDetailsService {
         return notes.get(notes.size()-1);
 
     }
-
     public void delete(User savedUserOne) {
          userRepository.delete(savedUserOne);
+    }
+    public User update(User savedUser,User updateUser) throws Exception {
+        User existingUser = getUser(savedUser.getId());
+
+        if(existingUser != null){
+            existingUser.updateUsername(updateUser.getUserName());
+            existingUser.updateEmail(updateUser.getEmail());
+            existingUser.updatePassword(updateUser.getPassword());
+            return userRepository.save(existingUser);
+        }
+        else {
+            throw new UserNotFoundException();
+        }
+
     }
 }

@@ -2,9 +2,9 @@ package com.thoughtworks.practice.TaskManager.User;
 
 import com.thoughtworks.practice.TaskManager.Note.Note;
 import com.thoughtworks.practice.TaskManager.Note.NoteRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -159,9 +159,7 @@ class UserServiceTest {
         User userOne = new User("arya@gmail.com","arya","arya22");
         User savedUser = userService.register(userOne);
         userService.delete(savedUser);
-        assertThrows(UsernameNotFoundException.class,()->userService.loadUserByUsername(savedUser.getUserName()));
-
-
+        assertThrows(UsernameNotFoundException.class, () -> userService.loadUserByUsername(userOne.getUserName()));
     }
 
     @Test
@@ -176,7 +174,6 @@ class UserServiceTest {
         User savedUserThree = userService.register(userThree);
         User savedUserFour = userService.register(userFour);
 
-
         userService.delete(savedUserOne);
         userService.delete(savedUserTwo);
 
@@ -187,4 +184,20 @@ class UserServiceTest {
         assertEquals("baji",savedUserFour.getUserName());
 
     }
+
+    @Test
+    void shouldUpdateGivenUser() throws Exception {
+        User user = new User("lannister@gmail.com","shivaji","shivaji22");
+        User savedUser = userService.register(user);
+
+        User updateUser = new User("shivaji@gmail.com","shivajirao","shivaji22");
+        User updatedUser = userService.update(savedUser,updateUser);
+
+        Assertions.assertEquals("shivajirao",updatedUser.getUserName());
+        Assertions.assertEquals("shivaji@gmail.com",updatedUser.getEmail());
+        Assertions.assertEquals(savedUser.getId(), updatedUser.getId());
+    }
+
+
+
 }
