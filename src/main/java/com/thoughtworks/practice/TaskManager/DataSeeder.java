@@ -15,7 +15,6 @@ public class DataSeeder {
         return args -> {
             if(userRepository.findByUserName("neha") == null) {
                 User savedUser = userRepository.save(new User("neha@gmail.com","neha","neha22"));
-               // userRepository.save(savedUser);
                userService.register(savedUser);
             }
         };
