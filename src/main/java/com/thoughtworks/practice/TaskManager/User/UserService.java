@@ -47,8 +47,8 @@ public class UserService implements UserDetailsService {
     public void delete(User savedUserOne) {
          userRepository.delete(savedUserOne);
     }
-    public User update(User savedUser,User updateUser) throws UsernameNotFoundException, UserNotFoundException {
-        Optional<User> saveUser = userRepository.findById(savedUser.getId());
+    public User update(Long savedUserId,User updateUser) throws UsernameNotFoundException, UserNotFoundException {
+        Optional<User> saveUser = userRepository.findById(savedUserId);
 
         if(saveUser.isPresent()){
             User existingUser = saveUser.get() ;

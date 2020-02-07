@@ -133,7 +133,7 @@ class UserServiceTest {
             User savedUser = userService.register(user);
 
             User updateUser = new User("shivaji@gmail.com", "shivajirao", "shivaji22");
-            User updatedUser = userService.update(savedUser, updateUser);
+            User updatedUser = userService.update(savedUser.getId(), updateUser);
 
             Assertions.assertEquals("shivajirao", updatedUser.getUserName());
             Assertions.assertEquals("shivaji@gmail.com", updatedUser.getEmail());
@@ -150,8 +150,8 @@ class UserServiceTest {
             User updateUserOne = new User("virus@gmail.com", "virus", "virus222");
             User updateUserTwo = new User("bacteria@gmail.com", "deadbacteria", "bacteria22");
 
-            User updatedUserOne = userService.update(savedUserOne, updateUserOne);
-            User updatedUserTwo = userService.update(savedUserTwo, updateUserTwo);
+            User updatedUserOne = userService.update(savedUserOne.getId(), updateUserOne);
+            User updatedUserTwo = userService.update(savedUserTwo.getId(), updateUserTwo);
 
             Assertions.assertEquals("virus222", updatedUserOne.getPassword());
             Assertions.assertEquals("deadbacteria", updatedUserTwo.getUserName());
