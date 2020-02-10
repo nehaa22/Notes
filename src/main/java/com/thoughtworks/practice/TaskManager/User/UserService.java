@@ -36,14 +36,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
     }
 
-    public Note createNote(Note note, Long userId) throws Exception {
-        User existingUser = getUser(userId);
-        existingUser.addNote(note);
-            noteRepository.save(note);
-            List<Note> notes = existingUser.getNotes();
-            return notes.get(notes.size() - 1);
-
-    }
     public void delete(User savedUserOne) {
          userRepository.delete(savedUserOne);
     }
