@@ -125,43 +125,6 @@ class UserServiceTest {
     }
 
     @Nested
-    class UpdateUser {
-
-        @Test
-        void shouldUpdateGivenUser() throws Exception {
-            User user = new User("lannister@gmail.com", "shivaji", "shivaji22");
-            User savedUser = userService.register(user);
-
-            User updateUser = new User("shivaji@gmail.com", "shivajirao", "shivaji22");
-            User updatedUser = userService.update(savedUser.getId(), updateUser);
-
-            Assertions.assertEquals("shivajirao", updatedUser.getUserName());
-            Assertions.assertEquals("shivaji@gmail.com", updatedUser.getEmail());
-            Assertions.assertEquals(savedUser.getId(), updatedUser.getId());
-        }
-
-        @Test
-        void shouldUpdatePasswordAndNameOfTwoUsers() throws Exception {
-            User userOne = new User("virus@gmail.com", "virus", "virus22");
-            User savedUserOne = userService.register(userOne);
-            User userTwo = new User("bacteria@gmail.com", "bacteria", "bacteria22");
-            User savedUserTwo = userService.register(userTwo);
-
-            User updateUserOne = new User("virus@gmail.com", "virus", "virus222");
-            User updateUserTwo = new User("bacteria@gmail.com", "deadbacteria", "bacteria22");
-
-            User updatedUserOne = userService.update(savedUserOne.getId(), updateUserOne);
-            User updatedUserTwo = userService.update(savedUserTwo.getId(), updateUserTwo);
-
-            Assertions.assertEquals("virus222", updatedUserOne.getPassword());
-            Assertions.assertEquals("deadbacteria", updatedUserTwo.getUserName());
-            Assertions.assertEquals(savedUserOne.getId(), updatedUserOne.getId());
-            Assertions.assertEquals(savedUserTwo.getId(), updatedUserTwo.getId());
-
-        }
-    }
-
-    @Nested
     class CreateNote {
 
         @Test
@@ -218,6 +181,52 @@ class UserServiceTest {
 
         }
     }
+
+    @Nested
+    class UpdateUser {
+
+        @Test
+        void shouldUpdateGivenUser() throws Exception {
+            User user = new User("lannister@gmail.com", "shivaji", "shivaji22");
+            User savedUser = userService.register(user);
+
+            User updateUser = new User("shivaji@gmail.com", "shivajirao", "shivaji22");
+            User updatedUser = userService.update(savedUser.getId(), updateUser);
+
+            Assertions.assertEquals("shivajirao", updatedUser.getUserName());
+            Assertions.assertEquals("shivaji@gmail.com", updatedUser.getEmail());
+            Assertions.assertEquals(savedUser.getId(), updatedUser.getId());
+        }
+
+        @Test
+        void shouldUpdatePasswordAndNameOfTwoUsers() throws Exception {
+            User userOne = new User("virus@gmail.com", "virus", "virus22");
+            User savedUserOne = userService.register(userOne);
+            User userTwo = new User("bacteria@gmail.com", "bacteria", "bacteria22");
+            User savedUserTwo = userService.register(userTwo);
+
+            User updateUserOne = new User("virus@gmail.com", "virus", "virus222");
+            User updateUserTwo = new User("bacteria@gmail.com", "deadbacteria", "bacteria22");
+
+            User updatedUserOne = userService.update(savedUserOne.getId(), updateUserOne);
+            User updatedUserTwo = userService.update(savedUserTwo.getId(), updateUserTwo);
+
+            Assertions.assertEquals("virus222", updatedUserOne.getPassword());
+            Assertions.assertEquals("deadbacteria", updatedUserTwo.getUserName());
+            Assertions.assertEquals(savedUserOne.getId(), updatedUserOne.getId());
+            Assertions.assertEquals(savedUserTwo.getId(), updatedUserTwo.getId());
+
+        }
+
+        @Test
+        void shouldNotUpdateNonExistingUser() throws Exception {
+            Long userId = 1234L;
+            User updateUser = new User("shantanu@gmail.com","shantanu","shantanu22");
+
+            Assertions.assertThrows(UserNotFoundException.class, ()-> userService.update(userId, updateUser));
+        }
+    }
+
 }
 
 

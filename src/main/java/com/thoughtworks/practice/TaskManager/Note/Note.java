@@ -17,7 +17,7 @@ public class Note {
     @Column
     String matter;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
 

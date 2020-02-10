@@ -39,16 +39,16 @@ public class UserService implements UserDetailsService {
     public Note createNote(Note note, Long userId) throws Exception {
         User existingUser = getUser(userId);
         existingUser.addNote(note);
-        noteRepository.save(note);
-        List<Note> notes = existingUser.getNotes();
-        return notes.get(notes.size()-1);
+            noteRepository.save(note);
+            List<Note> notes = existingUser.getNotes();
+            return notes.get(notes.size() - 1);
 
     }
     public void delete(User savedUserOne) {
          userRepository.delete(savedUserOne);
     }
-    public User update(Long savedUserId,User updateUser) throws UsernameNotFoundException, UserNotFoundException {
-        Optional<User> saveUser = userRepository.findById(savedUserId);
+    public User update(Long id,User updateUser) throws UserNotFoundException {
+        Optional<User> saveUser = userRepository.findById(id);
 
         if(saveUser.isPresent()){
             User existingUser = saveUser.get() ;
