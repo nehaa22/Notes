@@ -47,6 +47,6 @@ public class NoteService {
         Note existingNote = readNote(noteId,userId);
         existingNote.setTitle(updateNote.getTitle());
         existingNote.setMatter(updateNote.getMatter());
-        return existingNote;
+        return noteRepository.save(existingNote);
     }
 }
