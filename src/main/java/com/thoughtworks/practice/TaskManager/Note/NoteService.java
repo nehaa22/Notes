@@ -1,10 +1,8 @@
 package com.thoughtworks.practice.TaskManager.Note;
 
 import com.thoughtworks.practice.TaskManager.User.User;
-import com.thoughtworks.practice.TaskManager.User.UserRepository;
 import com.thoughtworks.practice.TaskManager.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,4 +25,21 @@ public class NoteService {
 
     }
 
+    public Note readNote(Long testNoteId, Long userId) throws NoteNotFoundException {
+        List<Note> note = noteRepository.findByUserId(userId);
+
+        for(Note existingNote : note){
+            if(existingNote.getId().equals(testNoteId)){
+                return existingNote;
+            }else {
+                throw new NoteNotFoundException();
+            }
+        }
+        return null;
+    }
+
+    public List<Note> readAllNotes(Long userId) {
+        return noteRepository.findByUserId(userId);
+
+    }
 }

@@ -97,6 +97,7 @@ class UserServiceTest {
             User userOne = new User("arya@gmail.com", "arya", "arya22");
             User savedUser = userService.register(userOne);
             userService.delete(savedUser);
+
             assertThrows(UsernameNotFoundException.class, () -> userService.loadUserByUsername(userOne.getUserName()));
         }
 
@@ -170,5 +171,8 @@ class UserServiceTest {
     }
 
 }
+
+
+
 
 

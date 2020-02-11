@@ -1,11 +1,17 @@
 package com.thoughtworks.practice.TaskManager.Note;
 
 import com.thoughtworks.practice.TaskManager.User.User;
+import com.thoughtworks.practice.TaskManager.User.UserRepository;
 import com.thoughtworks.practice.TaskManager.User.UserService;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,6 +23,18 @@ public class NoteServiceTest {
 
     @Autowired
     NoteService noteService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    NoteRepository noteRepository;
+
+    @BeforeEach
+    public void tearDown() {
+        userRepository.deleteAll();
+        noteRepository.deleteAll();
+    }
 
     @Nested
     class CreateNote {
@@ -76,4 +94,23 @@ public class NoteServiceTest {
         }
     }
 
+
+    @Nested
+    class ReadNote {
+        @Test
+        void shouldReadOneNote() throws Exception {
+
+            User user = new User("google@gmail.com", "google", "google22");
+            User savedUser = userService.register(user);
+
+            Note note = new Note("employee", "good at work");
+            Note savedNote = noteService.createNote(note, savedUser.getId());
+
+            Note existingNote = noteService.readNote(savedNote.getId(), savedUser.getId());
+            Assertions.assertEquals("employee", existingNote.getTitle());
+
+        }
+    }
 }
+
+

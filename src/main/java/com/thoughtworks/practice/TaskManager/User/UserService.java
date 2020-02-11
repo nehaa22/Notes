@@ -39,6 +39,7 @@ public class UserService implements UserDetailsService {
     public void delete(User savedUserOne) {
          userRepository.delete(savedUserOne);
     }
+
     public User update(Long id,User updateUser) throws UserNotFoundException {
         Optional<User> saveUser = userRepository.findById(id);
 

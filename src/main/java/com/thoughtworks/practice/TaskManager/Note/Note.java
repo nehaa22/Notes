@@ -3,6 +3,7 @@ package com.thoughtworks.practice.TaskManager.Note;
 import com.thoughtworks.practice.TaskManager.User.User;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Note {
@@ -20,6 +21,11 @@ public class Note {
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 
     public Note(){}
 

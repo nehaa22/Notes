@@ -13,7 +13,7 @@ public class DataSeeder {
     @Bean
     CommandLineRunner initDb(UserRepository userRepository,UserService userService){
         return args -> {
-            if(userRepository.findByUserName("neha") == null) {
+            if(userRepository.findByUserName("neha").isEmpty()) {
                 User savedUser = userRepository.save(new User("neha@gmail.com","neha","neha22"));
                userService.register(savedUser);
             }

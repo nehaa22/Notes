@@ -5,6 +5,7 @@ import com.thoughtworks.practice.TaskManager.Note.Note;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class User {
@@ -31,6 +32,11 @@ public class User {
         this.email = email;
         this.userName = userName;
         this.password = password;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, userName, password, notes);
     }
 
     public User(){}
