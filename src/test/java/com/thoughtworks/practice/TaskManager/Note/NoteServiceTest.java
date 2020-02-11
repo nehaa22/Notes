@@ -110,6 +110,28 @@ public class NoteServiceTest {
             Assertions.assertEquals("employee", existingNote.getTitle());
 
         }
+
+        @Test
+        void shouldReadAllNote() throws Exception {
+
+            User user = new User("yahoo@gmail.com", "yahoo", "yahoo22");
+            User savedUser = userService.register(user);
+
+            Note noteOne = new Note("time", "very quick");
+            Note savedNoteOne = noteService.createNote(noteOne, savedUser.getId());
+            Note noteOneTwo = new Note("speed", "faster than other");
+            Note savedNoteTwo = noteService.createNote(noteOneTwo, savedUser.getId());
+            Note noteThree = new Note("performance", "best than all others");
+
+            Note savedNoteThree = noteService.createNote(noteThree, savedUser.getId());
+
+            Assertions.assertEquals("time", savedNoteOne.getTitle());
+            Assertions.assertEquals("speed", savedNoteTwo.getTitle());
+            Assertions.assertEquals("performance", savedNoteThree.getTitle());
+
+            List<Note> savedNotes = noteService.readAllNotes(savedUser.getId());
+            Assertions.assertEquals(3, savedNotes.size());
+        }
     }
 }
 
