@@ -1,6 +1,5 @@
 package com.thoughtworks.practice.TaskManager.User;
 
-import com.thoughtworks.practice.TaskManager.Note.Note;
 import com.thoughtworks.practice.TaskManager.Note.NoteRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

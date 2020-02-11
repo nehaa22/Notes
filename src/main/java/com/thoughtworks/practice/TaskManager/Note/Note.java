@@ -47,4 +47,10 @@ public class Note {
         this.user = user;
     }
 
+    public void setMatter(String matter) {
+        this.matter = matter;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

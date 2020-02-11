@@ -1,5 +1,6 @@
 package com.thoughtworks.practice.TaskManager.Note;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.thoughtworks.practice.TaskManager.User.User;
 import com.thoughtworks.practice.TaskManager.User.UserRepository;
 import com.thoughtworks.practice.TaskManager.User.UserService;
@@ -132,6 +133,31 @@ public class NoteServiceTest {
             List<Note> savedNotes = noteService.readAllNotes(savedUser.getId());
             Assertions.assertEquals(3, savedNotes.size());
         }
+    }
+
+    @Nested
+    class UpdateNote{
+
+        @Test
+        void shouldUpdateNote() throws Exception {
+            User user = new User("uber@gmail.com", "uber", "uber22");
+            User savedUser = userService.register(user);
+
+            Note noteOne = new Note("driver", "good in nature");
+            Note savedNoteOne = noteService.createNote(noteOne, savedUser.getId());
+            Note noteOneTwo = new Note("behaviour", "kind and polite");
+            Note savedNoteTwo = noteService.createNote(noteOneTwo, savedUser.getId());
+
+            Assertions.assertEquals("good in nature", savedNoteOne.getMatter());
+            Assertions.assertEquals("kind and polite", savedNoteTwo.getMatter());
+
+            Note updateNoteOne = new Note("driver","Not good in nature");
+
+            Note updatedNote = noteService.updateNote(updateNoteOne,savedNoteOne.getId(),savedUser.getId());
+
+            Assertions.assertEquals("Not good in nature",updatedNote.getMatter());
+        }
+
     }
 }
 

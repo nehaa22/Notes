@@ -42,4 +42,11 @@ public class NoteService {
         return noteRepository.findByUserId(userId);
 
     }
+
+    public Note updateNote(Note updateNote, Long noteId, Long userId) throws NoteNotFoundException {
+        Note existingNote = readNote(noteId,userId);
+        existingNote.setTitle(updateNote.getTitle());
+        existingNote.setMatter(updateNote.getMatter());
+        return existingNote;
+    }
 }
