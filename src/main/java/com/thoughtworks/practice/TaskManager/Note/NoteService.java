@@ -26,16 +26,14 @@ public class NoteService {
     }
 
     public Note readNote(Long testNoteId, Long userId) throws NoteNotFoundException {
-        List<Note> note = noteRepository.findByUserId(userId);
+        List<Note> notes = noteRepository.findByUserId(userId);
 
-        for(Note existingNote : note){
-            if(existingNote.getId().equals(testNoteId)){
+        for (Note existingNote : notes) {
+            if (existingNote.getId().equals(testNoteId)) {
                 return existingNote;
-            }else {
-                throw new NoteNotFoundException();
             }
         }
-        return null;
+        throw new NoteNotFoundException();
     }
 
     public List<Note> readAllNotes(Long userId) {
@@ -44,9 +42,14 @@ public class NoteService {
     }
 
     public Note updateNote(Note updateNote, Long noteId, Long userId) throws NoteNotFoundException {
-        Note existingNote = readNote(noteId,userId);
+        Note existingNote = readNote(noteId, userId);
         existingNote.setTitle(updateNote.getTitle());
         existingNote.setMatter(updateNote.getMatter());
         return noteRepository.save(existingNote);
+    }
+
+    public void deleteNote(Long userId, Long noteId) throws NoteNotFoundException {
+        Note savedNote = readNote(noteId, userId);
+        noteRepository.delete(savedNote);
     }
 }
