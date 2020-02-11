@@ -158,6 +158,39 @@ public class NoteServiceTest {
             Assertions.assertEquals("Not good in nature",updatedNote.getMatter());
         }
 
+        @Test
+        void shouldUpdateTwoNotesOfTwoDifferentUsers() throws Exception {
+            User userOne = new User("pune@gmail.com", "pune", "pune22");
+            User savedUserOne = userService.register(userOne);
+            User userTwo = new User("mumbai@gmail.com", "mumbai", "mumbai22");
+            User savedUserTwo = userService.register(userTwo);
+
+            Note noteOne = new Note("clean","first in maharashtra");
+            Note savedNoteOne = noteService.createNote(noteOne,savedUserOne.getId());
+            Note noteTwo = new Note("education","engineering famous");
+            Note savedNoteTwo = noteService.createNote(noteTwo,savedUserOne.getId());
+
+            Note noteThree = new Note("buildings","too high");
+            Note savedNoteThree = noteService.createNote(noteThree,savedUserTwo.getId());
+            Note noteFour = new Note("place","marin drive bandStand");
+            Note savedNoteFour = noteService.createNote(noteFour,savedUserTwo.getId());
+
+            Assertions.assertEquals("first in maharashtra", savedNoteOne.getMatter());
+            Assertions.assertEquals("education", savedNoteTwo.getTitle());
+            Assertions.assertEquals("buildings",savedNoteThree.getTitle());
+            Assertions.assertEquals("marin drive bandStand",savedNoteFour.getMatter());
+
+            Note updateNoteOne = new Note("cleanliness","Not first in Maharashtra");
+            Note updateNoteThree = new Note("buildings","Taller than other cities");
+
+            Note updatedNoteOne = noteService.updateNote(updateNoteOne,savedNoteOne.getId(),savedUserOne.getId());
+            Note updatedNoteThree = noteService.updateNote(updateNoteThree,savedNoteThree.getId(),savedUserTwo.getId());
+
+            Assertions.assertEquals("cleanliness", updatedNoteOne.getTitle());
+            Assertions.assertEquals("Taller than other cities",updatedNoteThree.getMatter());
+
+        }
+
     }
 }
 
