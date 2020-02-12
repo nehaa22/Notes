@@ -229,6 +229,33 @@ public class NoteServiceTest {
 
         }
 
+        @Test
+        void shouldDeleteMultipleNotesOfMultipleUsers() throws Exception {
+            User userOne = new User("software@gmail.com", "software", "software22");
+            User savedUserOne = userService.register(userOne);
+            User userTwo = new User("hardware@gmail.com", "hardware", "hardware22");
+            User savedUserTwo = userService.register(userTwo);
+
+            Note noteOne = new Note("developer","intelligent and smart");
+            Note savedNoteOne = noteService.createNote(noteOne,savedUserOne.getId());
+            Note noteTwo = new Note("analyst","good in thinking");
+            Note savedNoteTwo = noteService.createNote(noteTwo,savedUserOne.getId());
+
+            Note noteThree = new Note("circuit","difficult to configure");
+            Note savedNoteThree = noteService.createNote(noteThree,savedUserTwo.getId());
+            Note noteFour = new Note("network","needs to travel");
+            Note savedNoteFour = noteService.createNote(noteFour,savedUserTwo.getId());
+
+            Assertions.assertEquals("developer",savedNoteOne.getTitle());
+            Assertions.assertEquals("good in thinking",savedNoteTwo.getMatter());
+            Assertions.assertEquals("circuit",savedNoteThree.getTitle());
+            Assertions.assertEquals("network",savedNoteFour.getTitle());
+
+            noteService.deleteNote(savedUserOne.getId(),savedNoteTwo.getId());
+            noteService.deleteNote(savedUserTwo.getId(),savedNoteThree.getId());
+
+        }
+
     }
 }
 
