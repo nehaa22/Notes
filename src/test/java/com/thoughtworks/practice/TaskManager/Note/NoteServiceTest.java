@@ -38,6 +38,120 @@ public class NoteServiceTest {
     }
 
     @Nested
+    class ReadNote {
+        @Test
+        void shouldReadOneNote() throws Exception {
+
+            User user = new User("google@gmail.com", "google", "google22");
+            User savedUser = userService.register(user);
+
+            Note note = new Note("employee", "good at work");
+            Note savedNote = noteService.createNote(note, savedUser.getId());
+
+            Note existingNote = noteService.readNote(savedNote.getId(), savedUser.getId());
+            Assertions.assertEquals("employee", existingNote.getTitle());
+
+        }
+
+        @Test
+        void shouldReadTwoNote() throws Exception {
+
+            User user = new User("google@gmail.com", "google", "google22");
+            User savedUser = userService.register(user);
+
+            Note noteOne = new Note("employee", "good at work");
+            Note savedNoteOne = noteService.createNote(noteOne, savedUser.getId());
+            Note noteTwo = new Note("salary", "best in world");
+            Note savedNoteTwo = noteService.createNote(noteTwo, savedUser.getId());
+
+            Note existingNote = noteService.readNote(savedNoteTwo.getId(), savedUser.getId());
+            Assertions.assertEquals("salary", existingNote.getTitle());
+
+        }
+
+        @Test
+        void shouldReadAllNote() throws Exception {
+
+            User user = new User("yahoo@gmail.com", "yahoo", "yahoo22");
+            User savedUser = userService.register(user);
+
+            Note noteOne = new Note("time", "very quick");
+            Note savedNoteOne = noteService.createNote(noteOne, savedUser.getId());
+            Note noteOneTwo = new Note("speed", "faster than other");
+            Note savedNoteTwo = noteService.createNote(noteOneTwo, savedUser.getId());
+            Note noteThree = new Note("performance", "best than all others");
+
+            Note savedNoteThree = noteService.createNote(noteThree, savedUser.getId());
+
+            Assertions.assertEquals("time", savedNoteOne.getTitle());
+            Assertions.assertEquals("speed", savedNoteTwo.getTitle());
+            Assertions.assertEquals("performance", savedNoteThree.getTitle());
+
+            List<Note> savedNotes = noteService.readAllNotes(savedUser.getId());
+            Assertions.assertEquals(3, savedNotes.size());
+        }
+    }
+
+
+
+    @Nested
+    class UpdateNote{
+
+        @Test
+        void shouldUpdateNote() throws Exception {
+            User user = new User("uber@gmail.com", "uber", "uber22");
+            User savedUser = userService.register(user);
+
+            Note noteOne = new Note("driver", "good in nature");
+            Note savedNoteOne = noteService.createNote(noteOne, savedUser.getId());
+            Note noteOneTwo = new Note("behaviour", "kind and polite");
+            Note savedNoteTwo = noteService.createNote(noteOneTwo, savedUser.getId());
+
+            Assertions.assertEquals("good in nature", savedNoteOne.getMatter());
+            Assertions.assertEquals("kind and polite", savedNoteTwo.getMatter());
+
+            Note updateNoteOne = new Note("driver","Not good in nature");
+
+            Note updatedNote = noteService.updateNote(updateNoteOne,savedNoteOne.getId(),savedUser.getId());
+
+            Assertions.assertEquals("Not good in nature",updatedNote.getMatter());
+        }
+
+        @Test
+        void shouldUpdateTwoNotesOfTwoDifferentUsers() throws Exception {
+            User userOne = new User("pune@gmail.com", "pune", "pune22");
+            User savedUserOne = userService.register(userOne);
+            User userTwo = new User("mumbai@gmail.com", "mumbai", "mumbai22");
+            User savedUserTwo = userService.register(userTwo);
+
+            Note noteOne = new Note("clean","first in maharashtra");
+            Note savedNoteOne = noteService.createNote(noteOne,savedUserOne.getId());
+            Note noteTwo = new Note("education","engineering famous");
+            Note savedNoteTwo = noteService.createNote(noteTwo,savedUserOne.getId());
+
+            Note noteThree = new Note("buildings","too high");
+            Note savedNoteThree = noteService.createNote(noteThree,savedUserTwo.getId());
+            Note noteFour = new Note("place","marin drive bandStand");
+            Note savedNoteFour = noteService.createNote(noteFour,savedUserTwo.getId());
+
+            Assertions.assertEquals("first in maharashtra", savedNoteOne.getMatter());
+            Assertions.assertEquals("education", savedNoteTwo.getTitle());
+            Assertions.assertEquals("buildings",savedNoteThree.getTitle());
+            Assertions.assertEquals("marin drive bandStand",savedNoteFour.getMatter());
+
+            Note updateNoteOne = new Note("cleanliness","Not first in Maharashtra");
+            Note updateNoteThree = new Note("buildings","Taller than other cities");
+
+            Note updatedNoteOne = noteService.updateNote(updateNoteOne,savedNoteOne.getId(),savedUserOne.getId());
+            Note updatedNoteThree = noteService.updateNote(updateNoteThree,savedNoteThree.getId(),savedUserTwo.getId());
+
+            Assertions.assertEquals("cleanliness", updatedNoteOne.getTitle());
+            Assertions.assertEquals("Taller than other cities",updatedNoteThree.getMatter());
+
+        }
+    }
+
+    @Nested
     class CreateNote {
 
         @Test
@@ -95,141 +209,27 @@ public class NoteServiceTest {
         }
     }
 
-
     @Nested
-    class ReadNote {
-        @Test
-        void shouldReadOneNote() throws Exception {
-
-            User user = new User("google@gmail.com", "google", "google22");
-            User savedUser = userService.register(user);
-
-            Note note = new Note("employee", "good at work");
-            Note savedNote = noteService.createNote(note, savedUser.getId());
-
-            Note existingNote = noteService.readNote(savedNote.getId(), savedUser.getId());
-            Assertions.assertEquals("employee", existingNote.getTitle());
-
-        }
+    class DeleteUser{
 
         @Test
-        void shouldReadTwoNote() throws Exception {
-
-            User user = new User("google@gmail.com", "google", "google22");
-            User savedUser = userService.register(user);
-
-            Note noteOne = new Note("employee", "good at work");
-            Note savedNoteOne = noteService.createNote(noteOne, savedUser.getId());
-            Note noteTwo = new Note("salary", "best in world");
-            Note savedNoteTwo = noteService.createNote(noteTwo, savedUser.getId());
-
-            Note existingNote = noteService.readNote(savedNoteTwo.getId(), savedUser.getId());
-            Assertions.assertEquals("salary", existingNote.getTitle());
-
-        }
-
-        @Test
-        void shouldReadAllNote() throws Exception {
-
-            User user = new User("yahoo@gmail.com", "yahoo", "yahoo22");
-            User savedUser = userService.register(user);
-
-            Note noteOne = new Note("time", "very quick");
-            Note savedNoteOne = noteService.createNote(noteOne, savedUser.getId());
-            Note noteOneTwo = new Note("speed", "faster than other");
-            Note savedNoteTwo = noteService.createNote(noteOneTwo, savedUser.getId());
-            Note noteThree = new Note("performance", "best than all others");
-
-            Note savedNoteThree = noteService.createNote(noteThree, savedUser.getId());
-
-            Assertions.assertEquals("time", savedNoteOne.getTitle());
-            Assertions.assertEquals("speed", savedNoteTwo.getTitle());
-            Assertions.assertEquals("performance", savedNoteThree.getTitle());
-
-            List<Note> savedNotes = noteService.readAllNotes(savedUser.getId());
-            Assertions.assertEquals(3, savedNotes.size());
-        }
-    }
-
-    @Nested
-    class UpdateNote{
-
-        @Test
-        void shouldUpdateNote() throws Exception {
-            User user = new User("uber@gmail.com", "uber", "uber22");
-            User savedUser = userService.register(user);
-
-            Note noteOne = new Note("driver", "good in nature");
-            Note savedNoteOne = noteService.createNote(noteOne, savedUser.getId());
-            Note noteOneTwo = new Note("behaviour", "kind and polite");
-            Note savedNoteTwo = noteService.createNote(noteOneTwo, savedUser.getId());
-
-            Assertions.assertEquals("good in nature", savedNoteOne.getMatter());
-            Assertions.assertEquals("kind and polite", savedNoteTwo.getMatter());
-
-            Note updateNoteOne = new Note("driver","Not good in nature");
-
-            Note updatedNote = noteService.updateNote(updateNoteOne,savedNoteOne.getId(),savedUser.getId());
-
-            Assertions.assertEquals("Not good in nature",updatedNote.getMatter());
-        }
-
-        @Test
-        void shouldUpdateTwoNotesOfTwoDifferentUsers() throws Exception {
-            User userOne = new User("pune@gmail.com", "pune", "pune22");
+        void shouldDeleteNote() throws Exception {
+            User userOne = new User("yavatmal1@gmail.com", "yavatmal1", "yavatmal22");
             User savedUserOne = userService.register(userOne);
-            User userTwo = new User("mumbai@gmail.com", "mumbai", "mumbai22");
-            User savedUserTwo = userService.register(userTwo);
 
-            Note noteOne = new Note("clean","first in maharashtra");
+            Note noteOne = new Note("people","helping and caring");
             Note savedNoteOne = noteService.createNote(noteOne,savedUserOne.getId());
-            Note noteTwo = new Note("education","engineering famous");
+            Note noteTwo = new Note("famous1","durgadevi festival1");
             Note savedNoteTwo = noteService.createNote(noteTwo,savedUserOne.getId());
 
-            Note noteThree = new Note("buildings","too high");
-            Note savedNoteThree = noteService.createNote(noteThree,savedUserTwo.getId());
-            Note noteFour = new Note("place","marin drive bandStand");
-            Note savedNoteFour = noteService.createNote(noteFour,savedUserTwo.getId());
+            Assertions.assertEquals("people",savedNoteOne.getTitle());
+            Assertions.assertEquals("durgadevi festival1",savedNoteTwo.getMatter());
 
-            Assertions.assertEquals("first in maharashtra", savedNoteOne.getMatter());
-            Assertions.assertEquals("education", savedNoteTwo.getTitle());
-            Assertions.assertEquals("buildings",savedNoteThree.getTitle());
-            Assertions.assertEquals("marin drive bandStand",savedNoteFour.getMatter());
-
-            Note updateNoteOne = new Note("cleanliness","Not first in Maharashtra");
-            Note updateNoteThree = new Note("buildings","Taller than other cities");
-
-            Note updatedNoteOne = noteService.updateNote(updateNoteOne,savedNoteOne.getId(),savedUserOne.getId());
-            Note updatedNoteThree = noteService.updateNote(updateNoteThree,savedNoteThree.getId(),savedUserTwo.getId());
-
-            Assertions.assertEquals("cleanliness", updatedNoteOne.getTitle());
-            Assertions.assertEquals("Taller than other cities",updatedNoteThree.getMatter());
+            noteService.deleteNote(savedUserOne.getId(),savedNoteTwo.getId());
 
         }
 
     }
-
-//    @Nested
-//    class DeleteUser{
-//
-//        @Test
-//        void shouldDeleteNote() throws Exception {
-//            User userOne = new User("yavatmal@gmail.com", "yavatmal", "yavatmal22");
-//            User savedUserOne = userService.register(userOne);
-//
-//            Note noteOne = new Note("people","helping and caring");
-//            Note savedNoteOne = noteService.createNote(noteOne,savedUserOne.getId());
-//            Note noteTwo = new Note("famous","durgadevi festival");
-//            Note savedNoteTwo = noteService.createNote(noteTwo,savedUserOne.getId());
-//
-//            Assertions.assertEquals("people",savedNoteOne.getTitle());
-//            Assertions.assertEquals("durgadevi festival",savedNoteTwo.getMatter());
-//
-//            noteService.deleteNote(savedUserOne.getId(),savedNoteTwo.getId());
-
-//            Assertions.assertThrows(NoteNotFoundException.class,()-> noteService.deleteNote(savedUserOne.getId(),savedNoteTwo.getId()));
-//        }
-   // }
 }
 
 

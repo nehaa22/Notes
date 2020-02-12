@@ -1,6 +1,7 @@
 package com.thoughtworks.practice.TaskManager.Note;
 
 import com.thoughtworks.practice.TaskManager.User.User;
+import org.hibernate.action.internal.OrphanRemovalAction;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -24,20 +25,24 @@ public class Note {
 
     @Override
     public int hashCode() {
-        return 0;
+        return Objects.hash(id, title, matter, user);
     }
 
-    public Note(){}
+    public Note() {
+    }
 
-    public Note(String title,  String matter) {
+    public Note(String title, String matter) {
         this.title = title;
         this.matter = matter;
     }
+
     public String getTitle() {
         return title;
     }
 
-    public Long getId(){ return id; }
+    public Long getId() {
+        return id;
+    }
 
     public String getMatter() {
         return matter;
@@ -50,6 +55,7 @@ public class Note {
     public void setMatter(String matter) {
         this.matter = matter;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }

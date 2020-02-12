@@ -25,7 +25,7 @@ public class User {
     @Column
     private String password;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Note> notes;
 
     public User(String email,String userName, String password) {
@@ -36,7 +36,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, userName, password, notes);
+        return Objects.hash(userName);
     }
 
     public User(){}
