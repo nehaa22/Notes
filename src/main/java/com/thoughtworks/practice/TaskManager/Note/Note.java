@@ -1,7 +1,6 @@
 package com.thoughtworks.practice.TaskManager.Note;
 
 import com.thoughtworks.practice.TaskManager.User.User;
-import org.hibernate.action.internal.OrphanRemovalAction;
 
 import javax.persistence.*;
 import java.util.Objects;
